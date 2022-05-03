@@ -1,24 +1,29 @@
 package com.br.pizzaia.tasks.functional;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class TasksTest {
 	
-	public WebDriver acessarAplicacao() {
-		WebDriver driver = new ChromeDriver();
-		driver.navigate().to("http://localhost:8001/tasks");
+	public WebDriver acessarAplicacao() throws MalformedURLException {
+		// WebDriver driver = new ChromeDriver();
+		ChromeOptions options = new ChromeOptions();
+		WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444"), options);
+		driver.navigate().to("http://192.168.144.1:8001/tasks");
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		return driver;
 	}
 	
 	@Test
-	public void shouldSaveTaskWithSuccess() {
+	public void shouldSaveTaskWithSuccess() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
 		try {
 			// Clicar em add ToDo
@@ -44,7 +49,7 @@ public class TasksTest {
 	}
 	
 	@Test
-	public void shouldNotSaveTaskWithoutDescription() {
+	public void shouldNotSaveTaskWithoutDescription() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
 		try {
 			// Clicar em add ToDo
@@ -67,7 +72,7 @@ public class TasksTest {
 	}
 	
 	@Test
-	public void shouldNotSaveTaskWithouDate() {
+	public void shouldNotSaveTaskWithouDate() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
 		try {
 			// Clicar em add ToDo
@@ -90,7 +95,7 @@ public class TasksTest {
 	}
 	
 	@Test
-	public void shouldNotSaveTaskWithPassedDate() {
+	public void shouldNotSaveTaskWithPassedDate() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
 		try {
 			// Clicar em add ToDo
